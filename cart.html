@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart - Medicine Store</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="cart.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <h1>Medicine Store</h1>
+    <button onclick="redirectToCart()">Cart</button>
+  </header>
+
+  <main>
+    <section class="cart-section">
+      <h2>Cart</h2>
+      <div class="cart-items">
+        <!-- Cart items will be dynamically added here using JavaScript -->
+      </div>
+      <div class="cart-total">
+        <h3>Total Cost:</h3>
+        <p id="total-cost">₹ 0</p>
+      </div>
+      <button onclick="resetCart()">Reset</button> <!-- Reset button -->
+      <button onclick="pay()">Pay</button> <!-- Pay button -->
+    </section>
+  </main>
+
+  <footer>
+    <p>Contact Us:</p>
+    <ul>
+      <li>Phone: +91 1111111111</li>
+      <li>Email: Medicinestore@gmail.com</li>
+    </ul>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Function to update the cart items and total cost
+    function updateCart() {
+      const cartContainer = document.querySelector(".cart-items");
+      const totalCostElement = document.getElementById("total-cost");
+
+      let totalCost = 0;
+
+      cartContainer.innerHTML = "";
+
+      // Get cart items from local storage
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      cartItems.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        totalCost += itemTotal;
+
+        const cartItem = document.createElement("div");
+        cartItem.classList.add("cart-item");
+
+        const itemImageContainer = document.createElement("div");
+        itemImageContainer.classList.add("cart-item-image");
+        const itemImage = document.createElement("img");
+        itemImage.src = item.image;
+        itemImage.alt = item.name;
+        itemImageContainer.appendChild(itemImage);
+
+        const itemDetails = document.createElement("div");
+        itemDetails.classList.add("cart-item-details");
+        const itemName = document.createElement("h3");
+        itemName.textContent = item.name;
+        const itemPrice = document.createElement("p");
+        itemPrice.textContent = `Price: ₹ ${item.price}`;
+
+        // Quantity section
+        const quantitySection = document.createElement("div");
+        quantitySection.classList.add("quantity-section");
+
+        const decreaseButton = document.createElement("button");
+        decreaseButton.textContent = "-";
+        decreaseButton.onclick = () => updateQuantity(index, "decrease");
+
+        const quantityDisplay = document.createElement("p");
+        quantityDisplay.textContent = `Quantity: ${item.quantity}`;
+
+        const increaseButton = document.createElement("button");
+        increaseButton.textContent = "+";
+        increaseButton.onclick = () => updateQuantity(index, "increase");
+
+        quantitySection.appendChild(decreaseButton);
+        quantitySection.appendChild(quantityDisplay);
+        quantitySection.appendChild(increaseButton);
+
+        // Remove button
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.onclick = () => removeCartItem(index);
+
+        itemDetails.appendChild(itemName);
+        itemDetails.appendChild(itemPrice);
+        itemDetails.appendChild(quantitySection);
+        itemDetails.appendChild(removeButton);
+
+        cartItem.appendChild(itemImageContainer);
+        cartItem.appendChild(itemDetails);
+
+        cartContainer.appendChild(cartItem);
+      });
+
+      totalCostElement.textContent = `₹ ${totalCost.toFixed(2)}`;
+    }
+
+    // Function to pass cart items as query parameters to the cart.html page
+    function redirectToCart() {
+      window.location.href = "cart.html";
+    }
+
+    // Function to reset the cart and refresh the page
+    function resetCart() {
+      localStorage.removeItem("cartItems");
+      window.location.reload();
+    }
+
+    // Function to display alert and redirect to payment methods
+    function pay() {
+      alert("Redirecting to Payment Methods");
+      // Add the code to redirect to the actual payment methods page here if needed.
+    }
+
+    // Function to update the quantity of an item in the cart
+    function updateQuantity(index, action) {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const item = cartItems[index];
+
+      if (action === "increase") {
+        item.quantity++;
+      } else if (action === "decrease") {
+        if (item.quantity > 1) {
+          item.quantity--;
+        } else {
+          // Remove the item if the quantity reaches zero
+          cartItems.splice(index, 1);
+        }
+      }
+
+      // Save the updated cart items to local storage
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+      // Update the cart display
+      updateCart();
+    }
+
+    // Function to remove an item from the cart
+    function removeCartItem(index) {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      // Remove the item at the specified index from the cartItems array
+      cartItems.splice(index, 1);
+
+      // Save the updated cart items to local storage
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+      // Update the cart display
+      updateCart();
+    }
+
+    // Call the updateCart function on page load
+    updateCart();
+  </script>
+</body>
+</html>

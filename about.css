@@ -1,0 +1,54 @@
+/* CSS for the About page */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/medical_background.jpg'); /* Add the correct path to your image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgba(243, 240, 238, 0.979); /* Set the background color with alpha value for transparency */
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  nav li {
+    margin-right: 20px;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .cart-container {
+    position: relative;
+  }
+  
+  .cart-button {
+    background-color: #fff;
+    color: #333;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cart-icon {
+    font-size: 24px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medicine Store</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Medicine Store</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><input type="text" placeholder="Search"></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="registration.html">Sign up</a></li>
+      </ul>
+    </nav>
+    <button onclick="redirectToCart()">Cart</button>
+  </header>
+  <main>
+    <section class="product-section">
+      <div class="product">
+        <img src="images/p-1.jpg" alt="Medicine A">
+        <h3>Medicine A</h3>
+        <p>Price: ₹ 99.99</p>
+        <button onclick="addToCart(1, 'Medicine A', 'images/p-1.jpg', 99.99)">Add to Cart</button>
+      </div>
+
+      <div class="product">
+        <img src="images/p-2.jpg" alt="Medicine B">
+        <h3>Medicine B</h3>
+        <p>Price: ₹ 89.99</p>
+        <button onclick="addToCart(2, 'Medicine B', 'images/p-2.jpg', 89.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="images/p-3.jpg" alt="Medicine C">
+        <h3>Medicine C</h3>
+        <p>Price: ₹ 79.99</p>
+        <button onclick="addToCart(3, 'Medicine C', 'images/p-3.jpg', 79.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="images/p-4.jpg" alt="Medicine D">
+        <h3>Medicine D</h3>
+        <p>Price: ₹ 69.99</p>
+        <button onclick="addToCart(4, 'Medicine D', 'images/p-4.jpg', 69.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="images/p-5.jpg" alt="Medicine E">
+        <h3>Medicine E</h3>
+        <p>Price: ₹ 59.99</p>
+        <button onclick="addToCart(5, 'Medicine E', 'images/p-5.jpg', 59.99)">Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="images/p-6.jpg" alt="Medicine F">
+        <h3>Medicine F</h3>
+        <p>Price: ₹ 49.99</p>
+        <button onclick="addToCart(6, 'Medicine F', 'images/p-6.jpg', 49.99)">Add to Cart</button>
+      </div>
+
+     
+    </section>
+    <section class="cart" id="cart">
+      <h2>Cart</h2>
+      <ul id="cart-items">
+      
+      </ul>
+      <button onclick="checkout()">Checkout</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+ 
+  <script>
+    
+    function redirectToCart() {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const queryParams = new URLSearchParams();
+
+      
+      queryParams.append("cartItems", JSON.stringify(cartItems));
+
+      window.location.href = `cart.html?${queryParams.toString()}`;
+    }
+
+   
+    function addToCart(id, name, image, price) {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+     
+      const existingItem = cartItems.find((item) => item.id === id);
+
+      if (existingItem) {
+   
+        existingItem.quantity++;
+      } else {
+ 
+        cartItems.push({
+          id,
+          name,
+          image,
+          price,
+          quantity: 1,
+        });
+      }
+
+  
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+ 
+     
+    }
+  </script>
+  
+</body>
+</html>
